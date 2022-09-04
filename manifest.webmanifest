@@ -1,0 +1,22 @@
+{
+  "short_name": "WebFG",
+  "name": "WebFG",
+  "icons": [
+    {
+      "src": "/assets/icon.svg",
+      "type": "image/svg+xml",
+      "sizes": "150x150"
+    },
+    {
+      "src": "/assets/icon.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#4B9DBC",
+  "display": "standalone",
+  "scope": "/",
+  "theme_color": "#4B9DBC",
+  "description": "A Fusée Gelée Payload Launcher right in your browser!"
+}

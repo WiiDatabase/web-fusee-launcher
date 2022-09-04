@@ -1,0 +1,16 @@
+:root {
+    --bs-primary: #4B9DBC;
+    --bs-primary-rgb: 75, 157, 188;
+    --bs-secondary: #37748A;
+    --bs-secondary-rgb: 55, 116, 138;
+    --bs-border-radius: 0;
+}
+
+.card {
+    --bs-card-inner-border-radius: 0;
+    --bs-card-border-radius: 0;
+}
+
+textarea {
+    resize: none;
+}

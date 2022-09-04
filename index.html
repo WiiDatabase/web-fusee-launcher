@@ -1,102 +1,175 @@
-<!doctype html>
-<html>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>WebFG</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="WiiDatabase.de">
+    <meta name="description" content="A Fusée Gelée Payload Launcher right in your browser!">
+    <meta property="og:image" content="/assets/icon.png">
+    <meta property="og:description" content="A Fusée Gelée Payload Launcher right in your browser!">
+    <meta property="og:title" content="Web Fusée Launcher">
+    <meta name="theme-color" content="#4B9DBC">
 
-    <style>
-        body {
-            font-family: sans-serif;
-        }
+    <title>Web Fusée Launcher</title>
 
-        .red {
-            color: red;
-        }
+    <link rel="shortcut icon" href="assets/icon.svg" type="image/svg+xml">
+    <link rel="manifest" href="/manifest.webmanifest">
 
-        .hidden {
-            display: none;
-        }
-    </style>
+    <link rel="stylesheet" href="assets/bootstrap.min.css"/>
+    <link rel="stylesheet" href="assets/wiidb.css"/>
 </head>
-
 <body>
-<h1>Web Fusée Launcher</h1>
-<p>Fusee Launcher ported to JavaScript using WebUSB.</p>
 
-<noscript class="red">
-    <h2>YOU NEED TO ENABLE JAVASCRIPT FOR THIS TO WORK!</h2>
-</noscript>
+<nav class="navbar navbar-dark bg-primary shadow-sm">
+    <div class="container-fluid justify-content-center">
+        <span class="navbar-brand mb-0 h1 text">
+            Web Fusée Launcher
+        </span>
+    </div>
+</nav>
 
-<div id="windows-warning" class="red hidden">
-    <h2><u>THIS DOES NOT WORK ON WINDOWS!</u></h2>
-</div>
+<main class="container my-5">
 
-<h3>Payload:</h3>
-<div>
-    <form id="mainForm">
-        <p>
-            <input type="radio" name="payload" id="uploaded" value="uploaded" checked>
-            <label for="uploaded">Upload payload:</label>
-            <input type="file" id="payloadUpload" accept=".bin">
+    <noscript>
+        <div class="row">
+            <div class="col">
+                <div class="alert alert-danger">
+                    <strong>You need to enable JavaScript for this page to work!</strong>
+                </div>
+            </div>
+        </div>
+    </noscript>
+
+    <div id="windows-not-supported" class="row d-none">
+        <div class="col">
+            <div class="alert alert-danger">
+                <strong>This does not work on Windows due to a limitation in the Chromium implementation of
+                    WebUSB.</strong>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col">
+            <section class="card shadow-sm mb-4">
+                <div class="card-header bg-secondary text-white">
+                    Send Payload
+                </div>
+                <div class="card-body">
+
+                    <div id="webusb-not-supported" class="alert alert-danger d-none">
+                        Your browser does not support <a class="link-danger" href="https://caniuse.com/webusb"
+                                                         target="_blank">WebUSB</a>.
+                    </div>
+
+                    <form id="payload-form">
+
+                        <div class="mb-3">
+                            <div class="row">
+                                <div class="col-12 col-lg-3">
+                                    <div class="form-check">
+                                        <input checked
+                                               class="form-check-input"
+                                               id="upload-payload-option"
+                                               name="payload-type"
+                                               type="radio"
+                                               value="custom">
+                                        <label class="form-check-label" for="upload-payload-option">
+                                            Custom payload
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="col mb-3 mb-lg-0">
+                                    <label class="form-label visually-hidden" for="custom-payload">
+                                        Choose a payload
+                                    </label>
+                                    <input id="custom-payload" class="form-control form-control-sm" type="file"
+                                           name="custom-payload" accept=".bin">
+                                </div>
+                            </div>
+
+                            <div class="form-check">
+                                <input class="form-check-input"
+                                       id="example-payload-option"
+                                       name="payload-type"
+                                       type="radio"
+                                       value="example"
+                                >
+                                <label class="form-check-label" for="example-payload-option">
+                                    Example payload
+                                </label>
+                            </div>
+                        </div>
+
+                        <button id="submit-button" disabled class="btn btn-success" type="submit">
+                            Choose USB device 'APX' and send payload
+                        </button>
+                    </form>
+                </div>
+            </section>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <section class="card shadow-sm mb-4">
+                <div class="card-header bg-secondary text-white">
+                    Result
+                </div>
+                <div class="card-body">
+                    <label class="visually-hidden" for="result">Result</label>
+                    <textarea class="form-control"
+                              id="result"
+                              placeholder="Messages will be shown here."
+                              rows="15"
+                              readonly></textarea>
+                </div>
+            </section>
+        </div>
+
+        <div class="col">
+            <section class="card shadow-sm mb-4">
+                <div class="card-header bg-secondary text-white">
+                    Notes
+                </div>
+                <div class="card-body">
+                    <ul class="card-text">
+                        <li>Select the device "<strong>APX</strong>"</li>
+                        <li>On Linux, you might get an <i>access denied</i> error. If you do, you can try creating a
+                            file
+                            at<br>
+                            <code>/etc/udev/rules.d/50-switch.rules</code><br>with the following contents:<br>
+                            <code>SUBSYSTEM=="usb",
+                                ATTR{idVendor}=="0955", MODE="0664", GROUP="plugdev"</code>
+                        </li>
+                        <li>This has been tested and appears to work on Linux, macOS, Android (not-rooted) and
+                            Chromebooks. Your mileage may vary.
+                        </li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+
+    </div>
+
+</main>
+
+<footer class="container-fluid">
+    <div class="row">
+        <p class="col text-center text-muted">
+            Source can be found on <a class="text-muted" href="https://github.com/WiiDatabase/web-fusee-launcher"
+                                      target="_blank">GitHub</a>.
+            Modified by <a class="text-muted"
+                           href="https://wiidatabase.de"
+                           target="_blank">WiiDatabase.de</a>,
+            original by <a class="text-muted" href="https://github.com/atlas44/web-fusee-launcher" target="_blank">atlas44</a>.
         </p>
+    </div>
+</footer>
 
-        <p>
-            <input type="radio" name="payload" id="fusee.bin" value="fusee.bin">
-            <label for="fusee.bin">Example payload (fusee.bin)</label>
-        </p>
-
-        <button id="goButton" type="submit">Do it!</button>
-    </form>
-
-</div>
-
-<h3>Result:</h3>
-<textarea cols="80" rows="12" id="output"></textarea>
-
-<p>
-<h4>Instructions:</h4>
-<ol>
-    <li>Put the Switch in RCM, and connect it to your device.</li>
-    <li>Select either the example payload, or upload one.</li>
-    <li>Submit the form</li>
-    <li>On the consent screen that appears, select 'APX' and hit confirm.</li>
-    <li>If all goes well, the payload will launch!</li>
-</ol>
-</p>
-
-<p>
-<h4>Random stuff:</h4>
-<ul>
-    <li>This is pretty poorly tested. I just kind wrote it and whatever. I'm not responsible if anything goes wrong!
-    </li>
-    <li>This does <strong>NOT work on Windows</strong> due to a limitation in the Chrome implementation of WebUSB (and
-        probably other
-        reasons!)
-    </li>
-    <li>This does <strong>ONLY work on browsers that support <a href="https://caniuse.com/webusb">WebUSB</a></strong>.
-    </li>
-    <li>On Linux, you might get an access denied error!
-        If you do, you can try creating a file at <code>/etc/udev/rules.d/50-switch.rules</code>
-        <div>With the following contents:</div>
-        <div><code>SUBSYSTEM=="usb", ATTR{idVendor}=="0955", MODE="0664", GROUP="plugdev"</code></div>
-    </li>
-    <li>This has been tested and appears to work on Linux, macOS, Android (not rooted) and Chromebooks. Your mileage may
-        vary.
-    </li>
-</ul>
-</p>
-
-<p>
-    <small>
-        Source can be found on <a href="https://github.com/WiiDatabase/web-fusee-launcher">GitHub</a> (or by hitting
-        view source, there is no backend!). Modified by WiiDatabase.de, original by <a
-            href="https://github.com/atlas44/web-fusee-launcher">atlas44</a>.
-    </small>
-</p>
-
-<script src="./fusee.bin.js"></script>
-<script src="./main.js"></script>
+<script src="assets/script.js" type="module"></script>
 </body>
-
 </html>
