@@ -14,3 +14,41 @@
 textarea {
     resize: none;
 }
+
+.error-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.error-content {
+    background-color: #dc3545;
+    color: white;
+    padding: 3rem;
+    border-radius: 8px;
+    text-align: center;
+    max-width: 600px;
+    margin: 1rem;
+}
+
+.error-content h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.error-content p {
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+.error-content a {
+    color: #fff;
+    text-decoration: underline;
+}

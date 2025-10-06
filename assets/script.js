@@ -28,7 +28,7 @@ import {fusee} from "./fusee.bin.js";
         SUBMITBTN: document.getElementById('submit-button'),
         UPLOAD_PAYLOAD_OPTION: document.getElementById('upload-payload-option'),
         WEBUSB_NOT_SUPPORTED: document.getElementById('webusb-not-supported'),
-        WINDOWS_UNSUPPORTED: document.getElementById('windows-not-supported'),
+        WINDOWS_NOT_SUPPORTED: document.getElementById('windows-not-supported'),
     })
 
     function logResult(...message) {
@@ -192,8 +192,9 @@ import {fusee} from "./fusee.bin.js";
         ELEMENTS.PAYLOAD_TYPE.value = CONSTS.CUSTOM;
     });
 
-    if (navigator.userAgentData.platform === 'Windows') {
-        ELEMENTS.WINDOWS_UNSUPPORTED.classList.remove('d-none');
+    if (navigator.userAgentData?.platform === 'Windows') {
+        ELEMENTS.WINDOWS_NOT_SUPPORTED.classList.remove('d-none');
+        return;
     }
 
     if (CONSTS.WEBUSB_SUPPORTED) {
